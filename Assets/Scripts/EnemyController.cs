@@ -26,7 +26,7 @@ public class EnemyController : MonoBehaviour
     void Update()
     {
         // How much are we moving?
-        float movementY = getSpeed( );
+        float movementY = getMovement( );
 
         // new position y
         float currentY= transform.position.y + movementY;
@@ -44,7 +44,7 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    private float getSpeed()
+    private float getMovement( )
     {
         if (direction == 1)
         {
