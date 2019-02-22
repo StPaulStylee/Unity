@@ -2,48 +2,56 @@
 
 public class PlayerController : MonoBehaviour
 {
-    // walking speed
     public float WalkingSpeed = 1f;
     public float JumpingSpeed = 1f;
-    private Vector3 playerPosition;
+    // Create the Rigidbody component
+    private new Rigidbody rigidbody;
 
     // Start is called before the first frame update
     private void Start( )
     {
-        playerPosition = transform.position;
+        // Set the Rigidbody Component
+        rigidbody = GetComponent<Rigidbody>( );
     }
 
     // Update is called once per frame
-    private void Update( )
+    private void FixedUpdate( )
+    {
+        WalkHandler( );
+    }
+
+    private Vector3 GetMovement()
     {
         // Input on x axis (horizontal)
         float horizontalAxis = Input.GetAxis("Horizontal");
         // Input on the z axis (moving forward or backward)
         float verticalAxis = Input.GetAxis("Vertical");
-
-        if (horizontalAxis == 0 && verticalAxis == 0)
-        {
-            return;
-        } else if (horizontalAxis != 0)
-        {
-            float movement = getMovement(horizontalAxis);
-            movePlayer(movement);
-        } else if (verticalAxis != 0)
-        {
-            float movement = getMovement(verticalAxis);
-            movePlayer(movement);
-        }
+        // Movement Vector
+        Vector3 movement = new Vector3(GetMovementValueForVector(horizontalAxis), 0, GetMovementValueForVector(verticalAxis));
+        return movement;
     }
 
-    private float getMovement(float axisValue)
+    private float GetMovementValueForVector(float axisValue)
     {
-        return WalkingSpeed * Time.deltaTime * axisValue;
+        return axisValue * WalkingSpeed * Time.deltaTime;
     }
 
-    private void movePlayer(float movementValue)
+    private void Jump()
     {
-        // You've left off trying to mvoe the player on the horizontal or vertical axis.
-        // You are stuck because your current logic doesn't account for two inputs at the same time
-        // and also this movePlayer method doesn't know which vector to apply the movement to
+        // ToDo: Implement
+    }
+
+    private void Walk(Vector3 movement, Rigidbody rigidbody)
+    {
+        // Calculate the new position
+        Vector3 newPosition = transform.position + movement;
+        // Move the player via the rigidbody
+        rigidbody.MovePosition(newPosition);
+    }
+
+    private void WalkHandler( )
+    {
+        Vector3 movement = GetMovement( );
+        Walk(movement, rigidbody);
     }
 }
