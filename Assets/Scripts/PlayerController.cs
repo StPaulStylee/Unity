@@ -1,23 +1,54 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
     public float WalkingSpeed = 1f;
-    public float JumpingSpeed = 1f;
+    public float JumpingForce = 1f;
     // Create the Rigidbody component
     private new Rigidbody rigidbody;
+    // Create the Collider Component
+    private new Collider collider;
+    private bool isJumping = false;
+    private Vector3 playerSize;
 
     // Start is called before the first frame update
     private void Start( )
     {
         // Set the Rigidbody Component
         rigidbody = GetComponent<Rigidbody>( );
+        // Set the Collider Component
+        collider = GetComponent<Collider>( );
+        // Get the size of our player
+        playerSize = collider.bounds.size;
     }
 
     // Update is called once per frame
     private void FixedUpdate( )
     {
         WalkHandler( );
+        JumpHandler( );
+    }
+
+
+    private bool IsGrounded( )
+    {
+        // Calculate the location of all 4 bottom corners
+        // We add the '0.01f to the Y value so that the Raycaster doesn't get confused... it needs a little bit of room to work with
+        // when running
+        Vector3 corner1 = transform.position + new Vector3(playerSize.x / 2, -(playerSize.y / 2) + 0.01f, playerSize.z / 2);
+        Vector3 corner2 = transform.position + new Vector3(-(playerSize.x / 2), -(playerSize.y / 2) + 0.01f, playerSize.z / 2);
+        Vector3 corner3 = transform.position + new Vector3(playerSize.x / 2, playerSize.y / 2 + 0.01f, -(playerSize.z / 2));
+        Vector3 corner4 = transform.position + new Vector3(-(playerSize.x / 2), playerSize.y / 2 + 0.01f, -(playerSize.z / 2));
+
+        // Check if the player is grounded
+        bool ground1 = Physics.Raycast(corner1, -(Vector3.up), 0.01f);
+        bool ground2 = Physics.Raycast(corner2, -(Vector3.up), 0.01f);
+        bool ground3 = Physics.Raycast(corner3, -(Vector3.up), 0.01f);
+        bool ground4 = Physics.Raycast(corner4, -(Vector3.up), 0.01f);
+
+        // If any of these are positive, it will return true
+        return (ground1 || ground2 || ground3 || ground4);
     }
 
     private Vector3 GetMovement()
@@ -39,6 +70,29 @@ public class PlayerController : MonoBehaviour
     private void Jump()
     {
         // ToDo: Implement
+    }
+
+    private void JumpHandler()
+    {
+        // Input on the Jump (Y) axis
+        float jumpAxis = Input.GetAxis("Jump");
+        // Once jump is pressed
+        if (jumpAxis > 0)
+        {
+            bool isGrounded = IsGrounded( );
+            // Check if we're not already jumping
+            if(!isJumping && isGrounded)
+            {
+                isJumping = true;
+                // jumping vector
+                Vector3 jumpVector = new Vector3(0, JumpingForce * jumpAxis, 0);
+                // Apply force
+                rigidbody.AddForce(jumpVector, ForceMode.VelocityChange);
+            }
+        } else
+        {
+            isJumping = false;
+        }
     }
 
     private void Walk(Vector3 movement, Rigidbody rigidbody)

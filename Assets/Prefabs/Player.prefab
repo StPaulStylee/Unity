@@ -106,7 +106,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WalkingSpeed: 3
-  JumpingSpeed: 1
+  JumpingForce: 5
 --- !u!54 &1057873429380683368
 Rigidbody:
   m_ObjectHideFlags: 0
