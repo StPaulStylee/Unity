@@ -42,10 +42,10 @@ public class PlayerController : MonoBehaviour
         Vector3 corner4 = transform.position + new Vector3(-(playerSize.x / 2), playerSize.y / 2 + 0.01f, -(playerSize.z / 2));
 
         // Check if the player is grounded
-        bool ground1 = Physics.Raycast(corner1, -(Vector3.up), 0.01f);
-        bool ground2 = Physics.Raycast(corner2, -(Vector3.up), 0.01f);
-        bool ground3 = Physics.Raycast(corner3, -(Vector3.up), 0.01f);
-        bool ground4 = Physics.Raycast(corner4, -(Vector3.up), 0.01f);
+        bool ground1 = Physics.Raycast(corner1, -(Vector3.up), 0.02f);
+        bool ground2 = Physics.Raycast(corner2, -(Vector3.up), 0.02f);
+        bool ground3 = Physics.Raycast(corner3, -(Vector3.up), 0.02f);
+        bool ground4 = Physics.Raycast(corner4, -(Vector3.up), 0.02f);
 
         // If any of these are positive, it will return true
         return (ground1 || ground2 || ground3 || ground4);
@@ -93,6 +93,11 @@ public class PlayerController : MonoBehaviour
         {
             isJumping = false;
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        print("You've touched your game object, you horny bastard.");
     }
 
     private void Walk(Vector3 movement, Rigidbody rigidbody)
