@@ -5,6 +5,8 @@ public class PlayerController : MonoBehaviour
 {
     public float WalkingSpeed = 1f;
     public float JumpingForce = 1f;
+
+    public AudioSource CoinSound;
     // Create the Rigidbody component
     private new Rigidbody rigidbody;
     // Create the Collider Component
@@ -36,16 +38,16 @@ public class PlayerController : MonoBehaviour
         // Calculate the location of all 4 bottom corners
         // We add the '0.01f to the Y value so that the Raycaster doesn't get confused... it needs a little bit of room to work with
         // when running
-        Vector3 corner1 = transform.position + new Vector3(playerSize.x / 2, -(playerSize.y / 2) + 0.01f, playerSize.z / 2);
-        Vector3 corner2 = transform.position + new Vector3(-(playerSize.x / 2), -(playerSize.y / 2) + 0.01f, playerSize.z / 2);
-        Vector3 corner3 = transform.position + new Vector3(playerSize.x / 2, playerSize.y / 2 + 0.01f, -(playerSize.z / 2));
-        Vector3 corner4 = transform.position + new Vector3(-(playerSize.x / 2), playerSize.y / 2 + 0.01f, -(playerSize.z / 2));
+        Vector3 corner1 = transform.position + new Vector3(playerSize.x / 2, -playerSize.y / 2 + 0.01f, playerSize.z / 2);
+        Vector3 corner2 = transform.position + new Vector3(-playerSize.x / 2, -playerSize.y / 2 + 0.01f, playerSize.z / 2);
+        Vector3 corner3 = transform.position + new Vector3(playerSize.x / 2, -playerSize.y / 2 + 0.01f, -playerSize.z / 2);
+        Vector3 corner4 = transform.position + new Vector3(-playerSize.x / 2, -playerSize.y / 2 + 0.01f, -playerSize.z / 2);
 
         // Check if the player is grounded
-        bool ground1 = Physics.Raycast(corner1, -(Vector3.up), 0.02f);
-        bool ground2 = Physics.Raycast(corner2, -(Vector3.up), 0.02f);
-        bool ground3 = Physics.Raycast(corner3, -(Vector3.up), 0.02f);
-        bool ground4 = Physics.Raycast(corner4, -(Vector3.up), 0.02f);
+        bool ground1 = Physics.Raycast(corner1, -Vector3.up, 0.01f);
+        bool ground2 = Physics.Raycast(corner2, -Vector3.up, 0.01f);
+        bool ground3 = Physics.Raycast(corner3, -Vector3.up, 0.01f);
+        bool ground4 = Physics.Raycast(corner4, -Vector3.up, 0.01f);
 
         // If any of these are positive, it will return true
         return (ground1 || ground2 || ground3 || ground4);
@@ -65,11 +67,6 @@ public class PlayerController : MonoBehaviour
     private float GetMovementValueForVector(float axisValue)
     {
         return axisValue * WalkingSpeed * Time.deltaTime;
-    }
-
-    private void Jump()
-    {
-        // ToDo: Implement
     }
 
     private void JumpHandler()
@@ -95,9 +92,27 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // The collider of the other object which this game object is touching
     private void OnTriggerEnter(Collider other)
     {
-        print("You've touched your game object, you horny bastard.");
+        // Two way's you can do this using tags... The second is a little more efficient
+        //if (other.tag == "Coin") ;
+        if(other.CompareTag("Coin"))
+        {
+            // Play the coin sound
+            CoinSound.Play( );
+
+            // Destory the coin
+            Destroy(other.gameObject);
+        }
+        else if(other.CompareTag("Enemy"))
+        {
+            print("Ouch! Ouchies!");
+        }
+        else if(other.CompareTag("Goal"))
+        {
+            print("HOORAY. YOU DID IT!");
+        }
     }
 
     private void Walk(Vector3 movement, Rigidbody rigidbody)
