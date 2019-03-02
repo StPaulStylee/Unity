@@ -5,6 +5,9 @@ public class PlayerController : MonoBehaviour
 {
     public float WalkingSpeed = 1f;
     public float JumpingForce = 1f;
+    public int MaxiumDamage = 3;
+
+    private int CurrentDamage = 0;
 
     public AudioSource CoinSound;
     // Create the Rigidbody component
@@ -44,10 +47,10 @@ public class PlayerController : MonoBehaviour
         Vector3 corner4 = transform.position + new Vector3(-playerSize.x / 2, -playerSize.y / 2 + 0.01f, -playerSize.z / 2);
 
         // Check if the player is grounded
-        bool ground1 = Physics.Raycast(corner1, -Vector3.up, 0.01f);
-        bool ground2 = Physics.Raycast(corner2, -Vector3.up, 0.01f);
-        bool ground3 = Physics.Raycast(corner3, -Vector3.up, 0.01f);
-        bool ground4 = Physics.Raycast(corner4, -Vector3.up, 0.01f);
+        bool ground1 = Physics.Raycast(corner1, -Vector3.up, 0.02f);
+        bool ground2 = Physics.Raycast(corner2, -Vector3.up, 0.02f);
+        bool ground3 = Physics.Raycast(corner3, -Vector3.up, 0.02f);
+        bool ground4 = Physics.Raycast(corner4, -Vector3.up, 0.02f);
 
         // If any of these are positive, it will return true
         return (ground1 || ground2 || ground3 || ground4);
@@ -99,6 +102,8 @@ public class PlayerController : MonoBehaviour
         //if (other.tag == "Coin") ;
         if(other.CompareTag("Coin"))
         {
+            // Increase the score
+            GameManager.Instance.IncreaseScore(1);
             // Play the coin sound
             CoinSound.Play( );
 
@@ -107,11 +112,17 @@ public class PlayerController : MonoBehaviour
         }
         else if(other.CompareTag("Enemy"))
         {
+            CurrentDamage++;
             print("Ouch! Ouchies!");
+            if (CurrentDamage >= MaxiumDamage)
+            {
+                GameManager.Instance.ResetGame( );
+            }
         }
         else if(other.CompareTag("Goal"))
         {
             print("HOORAY. YOU DID IT!");
+            GameManager.Instance.GoToNextLevel( );
         }
     }
 
