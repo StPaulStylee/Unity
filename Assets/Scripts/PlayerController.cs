@@ -33,6 +33,10 @@ public class PlayerController : MonoBehaviour
     {
         WalkHandler( );
         JumpHandler( );
+        if(!IsOnMap())
+        {
+            GameManager.Instance.GameOver( );
+        }
     }
 
 
@@ -54,6 +58,11 @@ public class PlayerController : MonoBehaviour
 
         // If any of these are positive, it will return true
         return (ground1 || ground2 || ground3 || ground4);
+    }
+
+    private bool IsOnMap()
+    {
+        return transform.position.y > -50;
     }
 
     private Vector3 GetMovement()
@@ -116,7 +125,7 @@ public class PlayerController : MonoBehaviour
             print("Ouch! Ouchies!");
             if (CurrentDamage >= MaxiumDamage)
             {
-                GameManager.Instance.ResetGame( );
+                GameManager.Instance.GameOver( );
             }
         }
         else if(other.CompareTag("Goal"))

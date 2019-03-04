@@ -64,12 +64,16 @@ public class GameManager : MonoBehaviour
         if (CurrentLevel < TotalLevels)
         {
             CurrentLevel++;
+            SceneManager.LoadScene("Level" + CurrentLevel);
         }
         else
         {
-            ResetGame( );
-            CurrentLevel = 1;
+            GameOver( );
         }
-        SceneManager.LoadScene("Level" + CurrentLevel);
+    }
+
+    public void GameOver()
+    {
+        SceneManager.LoadScene("GameOver");
     }
 }
