@@ -122,7 +122,7 @@ public class PlayerController : MonoBehaviour
         else if(other.CompareTag("Enemy"))
         {
             CurrentDamage++;
-            print("Ouch! Ouchies!");
+            GameManager.Instance.DecreaseHealth(1);
             if (CurrentDamage >= MaxiumDamage)
             {
                 GameManager.Instance.GameOver( );

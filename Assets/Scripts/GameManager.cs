@@ -9,6 +9,10 @@ public class GameManager : MonoBehaviour
     public int Score = 0;
     // High Score
     public int HighScore = 0;
+    // Player Health
+    public int Health;
+    // Max Health
+    public int MaxHealth = 3;
     //Current Level
     public int CurrentLevel = 1;
     // How many levels are there?
@@ -37,16 +41,21 @@ public class GameManager : MonoBehaviour
         //hud = FindObjectOfType<HudManager>( );
     }
 
+    public void DecreaseHealth(int amount)
+    {
+        Health -= amount;
+        HudManager.Instance.UpdateHealth( );
+    }
+
     public void IncreaseScore(int amount)
     {
         // Increase the score by the amount
         Score += amount;
-        HudManager.Instance.UpdateHud( );
+        HudManager.Instance.UpdateScore( );
 
         if (Score > HighScore)
         {
             HighScore = Score;
-            print("Congratualations, you've set a new high score of " + HighScore + "!");
         }
     }
 
@@ -54,9 +63,10 @@ public class GameManager : MonoBehaviour
     {
         Score = 0;
         CurrentLevel = 1;
+        Health = MaxHealth;
         // Load the CurrentLevel Scene
         SceneManager.LoadScene("Level1");
-        HudManager.Instance.UpdateHud( );
+        HudManager.Instance.UpdateHUD( );
     }
 
     public void GoToNextLevel()

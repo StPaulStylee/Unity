@@ -10,13 +10,15 @@ public class HudManager : MonoBehaviour
 {
     // Score text label
     public Text ScoreLabel;
+    // Health Text Label
+    public Text HealthLabel;
 
     public static HudManager Instance;
 
     // Start is called before the first frame update
     void Start()
     {
-        UpdateHud( );
+        UpdateHUD( );
     }
 
     private void Awake( )
@@ -36,8 +38,19 @@ public class HudManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    public void UpdateHealth( )
+    {
+        HealthLabel.text = "Health: " + GameManager.Instance.Health;
+    }
+
+    public void UpdateHUD( )
+    {
+        UpdateHealth( );
+        UpdateScore( );
+    }
+
     // Show up to date stats of the player
-    public void UpdateHud()
+    public void UpdateScore()
     {
         ScoreLabel.text = "Score: " + GameManager.Instance.Score;
     }

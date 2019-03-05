@@ -2084,36 +2084,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 669802617293181143, guid: 5c23c48b4cb17df43a5a9a4b72ab12b1,
-        type: 3}
-      propertyPath: m_Size.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2724286713304228602, guid: 5c23c48b4cb17df43a5a9a4b72ab12b1,
-        type: 3}
-      propertyPath: JumpingForce
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 2724286713304228602, guid: 5c23c48b4cb17df43a5a9a4b72ab12b1,
-        type: 3}
-      propertyPath: WalkingSpeed
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 2724286713304228602, guid: 5c23c48b4cb17df43a5a9a4b72ab12b1,
         type: 3}
       propertyPath: CoinSound
       value: 
       objectReference: {fileID: 1209583346}
-    - target: {fileID: 1057873429380683368, guid: 5c23c48b4cb17df43a5a9a4b72ab12b1,
-        type: 3}
-      propertyPath: m_IsKinematic
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1057873429380683368, guid: 5c23c48b4cb17df43a5a9a4b72ab12b1,
-        type: 3}
-      propertyPath: m_Constraints
-      value: 112
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5c23c48b4cb17df43a5a9a4b72ab12b1, type: 3}
 --- !u!1001 &1318563175919433009

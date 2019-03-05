@@ -45,3 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Score: 0
   HighScore: 0
+  Health: 3
+  MaxHealth: 3
+  CurrentLevel: 1
+  TotalLevels: 2
