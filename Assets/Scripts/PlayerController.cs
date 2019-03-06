@@ -7,9 +7,12 @@ public class PlayerController : MonoBehaviour
     public float JumpingForce = 1f;
     public int MaxiumDamage = 3;
 
-    private int CurrentDamage = 0;
-
     public AudioSource CoinSound;
+
+    private int CurrentDamage = 0;
+    private float horizontalAxis;
+    private float verticalAxis;
+
     // Create the Rigidbody component
     private new Rigidbody rigidbody;
     // Create the Collider Component
@@ -68,9 +71,11 @@ public class PlayerController : MonoBehaviour
     private Vector3 GetMovement()
     {
         // Input on x axis (horizontal)
-        float horizontalAxis = Input.GetAxis("Horizontal");
+        horizontalAxis = Input.GetAxis("Horizontal");
+        Debug.Log("Horizontal: " + horizontalAxis);
         // Input on the z axis (moving forward or backward)
-        float verticalAxis = Input.GetAxis("Vertical");
+        verticalAxis = Input.GetAxis("Vertical");
+        Debug.Log("Vertical: " + verticalAxis);
         // Movement Vector
         Vector3 movement = new Vector3(GetMovementValueForVector(horizontalAxis), 0, GetMovementValueForVector(verticalAxis));
         return movement;
@@ -130,7 +135,6 @@ public class PlayerController : MonoBehaviour
         }
         else if(other.CompareTag("Goal"))
         {
-            print("HOORAY. YOU DID IT!");
             GameManager.Instance.GoToNextLevel( );
         }
     }
@@ -147,5 +151,19 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 movement = GetMovement( );
         Walk(movement, rigidbody);
+        // Logic for facing player in direction of walk
+        if (verticalAxis != 0 || horizontalAxis != 0)
+        {
+            // Option 1: Modify the transform - but this is typically bad because we don't want to 
+            // directly mutate the transform of a Rigid Body (unless it's a kinematic rigid body, which it isn't)
+            Debug.Log(horizontalAxis);
+            Debug.Log(verticalAxis);
+            Vector3 direction = new Vector3(horizontalAxis, 0, verticalAxis);
+            //Debug.Log(direction);
+            //transform.forward = direction;
+
+            // Option 2
+            rigidbody.rotation = Quaternion.LookRotation(direction);
+        }
     }
 }
