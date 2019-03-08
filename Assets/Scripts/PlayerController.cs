@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
     public float WalkingSpeed = 1f;
     public float JumpingForce = 1f;
     public int MaxiumDamage = 3;
+    public float CameraDistanceZ = 6f;
 
     public AudioSource CoinSound;
 
@@ -29,6 +30,8 @@ public class PlayerController : MonoBehaviour
         collider = GetComponent<Collider>( );
         // Get the size of our player
         playerSize = collider.bounds.size;
+        // Set the Camera Position
+        CameraFollowPlayer( );
     }
 
     // Update is called once per frame
@@ -36,10 +39,23 @@ public class PlayerController : MonoBehaviour
     {
         WalkHandler( );
         JumpHandler( );
+        CameraFollowPlayer( );
         if(!IsOnMap())
         {
             GameManager.Instance.GameOver( );
         }
+    }
+
+    private void CameraFollowPlayer( )
+    {
+        // Grab the player object - remember that using Camera.main can be dangerous as if the tag of the camera
+        // is changed this 'get' may not work or return you the wrong camera
+        Vector3 cameraPosition = Camera.main.transform.position;
+        // modify it's position according to the CameraDistanceZ by getting the player's z position 
+        // and putting the camera behind them
+        cameraPosition.z = transform.position.z - CameraDistanceZ;
+        // Set the camera position
+        Camera.main.transform.position = cameraPosition;
     }
 
 
