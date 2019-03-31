@@ -8,3 +8,8 @@ I am going through a "mini-diploma" program from Zenva Academy. This repo is is 
 
 ##### Platformer Prototype
 This is where I am currently. This is a game that allows me to implement the basics in Materials, Prefabs, Scripting, etc. I'll update as I progress through this game and the course in general.
+
+### Where'rs the rest?
+I am developing the rest of the games available in the curriculum in separate repos.
+* [Pong](https://github.com/StPaulStylee/Pong)
+* [Frogger](https://github.com/StPaulStylee/FroggerReplica)
